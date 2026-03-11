@@ -1,0 +1,165 @@
+\documentclass[11pt]{article}
+
+% -----------------------------
+% Packages
+% -----------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+
+\usepackage{natbib}
+\bibliographystyle{apalike}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    citecolor=blue,
+    linkcolor=blue,
+    urlcolor=blue
+}
+
+% -----------------------------
+% Title
+% -----------------------------
+\title{Systematic and Idiosyncratic Components of Relative Signed Jump Variation}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Methodology}
+
+\subsection{Decomposition of RSJ into Systematic and Idiosyncratic Components}
+
+To distinguish between common market-wide asymmetric volatility
+conditions and firm-specific asymmetry, we decompose the Relative
+Signed Jump (RSJ) measure into systematic and idiosyncratic components
+using a factor-model framework.
+
+\subsection{Construction of Firm-Level RSJ}
+
+Following \citet{bollerslev2019}, realized volatility is decomposed into
+positive and negative semivariance components using intraday returns.
+Let $r_{i,t,j}$ denote the $j$-th intraday return for stock $i$ on day $t$.
+
+Daily realized variance is defined as
+
+\[
+RV_{i,t} = \sum_{j=1}^{n} r_{i,t,j}^{2}.
+\]
+
+Positive and negative realized semivariance are defined as
+
+\[
+RV^+_{i,t} =
+\sum_{j=1}^{n}
+r_{i,t,j}^{2} \mathbf{1}(r_{i,t,j} > 0),
+\]
+
+\[
+RV^-_{i,t} =
+\sum_{j=1}^{n}
+r_{i,t,j}^{2} \mathbf{1}(r_{i,t,j} < 0).
+\]
+
+The Relative Signed Jump measure is then defined as
+
+\[
+RSJ_{i,t} =
+\frac{RV^+_{i,t} - RV^-_{i,t}}{RV_{i,t}}.
+\]
+
+This measure captures the relative contribution of positive and
+negative intraday return variation to total realized volatility.
+
+\subsection{Construction of an Aggregate RSJ Factor}
+
+To capture common market-wide asymmetry in volatility, we construct an
+aggregate RSJ factor defined as the cross-sectional weighted average
+of firm-level RSJ measures:
+
+\[
+RSJ^M_t =
+\sum_{i=1}^{N_t}
+w_{i,t} RSJ_{i,t},
+\]
+
+where $w_{i,t}$ denotes the weight of stock $i$ in period $t$.
+In the baseline specification, these weights correspond to
+market-capitalization weights, although equal-weighted aggregates will
+also be considered as a robustness check.
+
+This aggregate measure captures the common component of asymmetric
+volatility across firms.
+
+\subsection{Factor-Model Decomposition}
+
+Firm-level RSJ is decomposed into systematic and idiosyncratic
+components using the following factor model:
+
+\[
+RSJ_{i,t} =
+\alpha_i +
+\beta_i RSJ^M_t +
+\varepsilon_{i,t}.
+\]
+
+The fitted value represents the systematic component:
+
+\[
+RSJ^{sys}_{i,t} =
+\beta_i RSJ^M_t,
+\]
+
+while the residual represents the idiosyncratic component:
+
+\[
+RSJ^{idio}_{i,t} =
+\varepsilon_{i,t}.
+\]
+
+The systematic component captures the part of firm-level asymmetric
+volatility related to common market conditions, whereas the
+idiosyncratic component captures firm-specific asymmetry.
+
+\subsection{Return Predictability Tests}
+
+To examine which component drives return predictability, we estimate
+cross-sectional regressions of the form
+
+\[
+R_{i,t+1} =
+\alpha_t +
+\gamma_{1,t} RSJ^{sys}_{i,t} +
+\gamma_{2,t} RSJ^{idio}_{i,t} +
+\delta_t' X_{i,t} +
+\varepsilon_{i,t+1},
+\]
+
+where $R_{i,t+1}$ denotes the future return of stock $i$ and $X_{i,t}$
+is a vector of control variables commonly used in the cross-sectional
+asset pricing literature, such as size, book-to-market, momentum, and
+idiosyncratic volatility.
+
+If the predictive power of RSJ is mainly driven by the systematic
+component, this would support a risk-based interpretation in which
+investors require compensation for exposure to common downside
+asymmetry conditions. Conversely, if the idiosyncratic component
+remains predictive, the evidence would be more consistent with a
+stock-specific mispricing interpretation.
+
+\bibliography{references}
+
+\end{document}
